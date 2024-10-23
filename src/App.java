@@ -37,12 +37,15 @@ class SuperHero extends Personaje {
         villano.vida_hp = villano.vida_hp - dañoRealizado;
         System.out.println("Causaste " + dañoRealizado + " de daño a " + villano.nombre);
         System.out.println("Vida restante " + villano.vida_hp);
+
+        villano.defenderVillano(this.SuperHero);
     }
     /*public void defender(Villano villano){
         int dañoRecibido = villano.fuerza/2;
         System.out.println(this.nombre + " ha recibido " + dañoRecibido + " de daño");
     }*/
     public void aumentarKi(){
+        // ataque maximo 500
         if(this.fuerza >= 500){
             System.out.println("No se puede aumentar más la fuerza");
         }else{
@@ -51,11 +54,13 @@ class SuperHero extends Personaje {
         }
     }
     public void recuperarse(){
-        if(this.vida_hp >= 2000){
+        // vida maxima 4000
+        if(this.vida_hp >= 4000){
             System.out.println("No se puede aumentar más la vida");
-        }
+        }else{
             this.vida_hp = this.vida_hp*2;
             System.out.println(this.nombre + " ha aumentado su vida a " + this.vida_hp);
+        }
     }
     public void estadisticas(){
         System.out.println("Estadisticas de " + this.nombre);
@@ -69,7 +74,7 @@ class SuperHero extends Personaje {
         System.out.println("Has reducido 500 puntos de vida a " + villano.nombre);
     }
     public void acciones(){
-        System.out.println("Seleccione una acción para el heroe");
+        System.out.println("Seleccione una acción para " + this.nombre);
         System.out.println("1 -> Atacar");
         //System.out.println("2 -> Defender");
         System.out.println("3 -> Aumentar Ataque");
@@ -95,10 +100,10 @@ class Villano extends Personaje {
         System.out.println("Causaste " + dañoRealizado + " de daño a " + superHero.nombre);
         System.out.println("Vida restante " + superHero.vida_hp);
     }
-    /*public void defenderVillano(SuperHero superHero){
+    public void defenderVillano(SuperHero superHero){
         int dañoRecibido = superHero.fuerza/2;
         System.out.println(this.nombre + " ha recibido " + dañoRecibido + " de daño");
-    }*/
+    }
     public void aumentarAtaqueVillano(){
         if(this.fuerza >= 500){
             System.out.println("No se puede aumentar más la fuerza");
@@ -108,7 +113,7 @@ class Villano extends Personaje {
         }
     }
     public void recuperarseVillano(){
-     if(this.vida_hp >= 20000)
+     if(this.vida_hp >= 4000)
      {
      System.out.println("No se puede aumentar más la vida");
     }else{
@@ -124,14 +129,14 @@ class Villano extends Personaje {
         System.out.println("velocidad " + this.velocidad);
     }
     public void trampaVillano(SuperHero superHero){
-        System.out.println("Has intercambiado la fuerza con el enemigo");
+        System.out.println("Has intercambiado la fuerza con " + superHero.nombre);
         int intercambio = superHero.fuerza;
         superHero.fuerza = this.fuerza;
         this.fuerza = intercambio;
         System.out.println("Fuerza actual " + this.fuerza);
     }
     public void accionesVillano(){
-        System.out.println("Seleccione una acción para el villano");
+        System.out.println("Seleccione una acción para " + this.nombre);
         System.out.println("1 -> Atacar");
         //System.out.println("2 -> Defender");
         System.out.println("3 -> Aumentar Ki");
@@ -144,35 +149,98 @@ class Villano extends Personaje {
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bienvenido");
-        System.out.println("Primero crearemos a tu superheroe");
-        System.out.println("Digite el nombre");
-        String nombre = scanner.nextLine();
-        System.out.println("Digite la fuerza");
-        int fuerza = scanner.nextInt();
-        System.out.println("Digite la velocidad");
-        int velocidad = scanner.nextInt();
-        System.out.println("Digite la vida");
-        int vida = scanner.nextInt();
-        SuperHero superHeroe = new SuperHero(nombre, fuerza, velocidad, vida);
-        scanner.nextLine();
-        System.out.println("Ahora crea los atributos para el villano");
-        System.out.println("Digite el nombre");
-        String nombreVillano = scanner.nextLine();
-        System.out.println("Digite la fuerza");
-        int fuerzaVillano = scanner.nextInt();
-        System.out.println("Digite la velocidad");
-        int velocidadVillano= scanner.nextInt();
-        System.out.println("Digite la vida");
-        int vidaVillano = scanner.nextInt();
-        Villano villano = new Villano(nombreVillano, fuerzaVillano, velocidadVillano, vidaVillano);
+        SuperHero superHeroe = null;
+        Villano villano = null;
+        int personaje;
+        String nombre = null;
+        int fuerza = 0;
+        int velocidad = 0;
+        int vida = 0;
+        boolean validacion;
+        int cantidadJugadores = 2;
+        for(int i = 1; i <= cantidadJugadores; i++){
+            //Esto me ayudará a que no ingresen un dato mal de la tabla
+            validacion = false;
+            // Calcula si el numero es impar o par
+            double calculo = i % 2;
+            String roll = (calculo  == 0) ? "Villano" : "Heroe";
+            while(!validacion){
+                System.out.println("Seleccione un personaje para el " + roll);
+                System.out.println("1 -> Goku");
+                System.out.println("2 -> Vegeta");
+                System.out.println("3 -> Son Gohan");
+                System.out.println("4 -> Freezer");
+                System.out.println("5 -> Broly");
+                System.out.println("6 -> Krilin");
+                // Pide el numero para seleccionar y crear automaticamente los valores de los atributos
+                personaje = scanner.nextInt();
+                switch (personaje) {
+                    case 1:
+                        nombre = "Goku";
+                        fuerza = 300;
+                        velocidad = 1000;
+                        vida = 2000;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    case 2:
+                        nombre = "Vegeta";
+                        fuerza = 260;
+                        velocidad = 1100;
+                        vida = 1800;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    case 3:
+                        nombre = "Son Gohan";
+                        fuerza = 260;
+                        velocidad = 900;
+                        vida = 2000;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    case 4:
+                        nombre = "Freezer";
+                        fuerza = 300;
+                        velocidad = 1400;
+                        vida = 1600;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    case 5:
+                        nombre = "Broly";
+                        fuerza = 450;
+                        velocidad = 800;
+                        vida = 2500;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    case 6:
+                        nombre = "Krilin";
+                        fuerza = 500;
+                        velocidad = 1000;
+                        vida = 4000;
+                        System.out.println("Has seleccionado a " + nombre);
+                        validacion = true;
+                        break;
+                    default:
+                        System.out.println("Numero invalido, seleccione otra vez");
+                        validacion = false;
+                        break;
+                }
+            }
+                if(calculo == 0){
+                    villano = new Villano(nombre, fuerza, velocidad, vida);
+                }else{
+                    superHeroe = new SuperHero(nombre, fuerza, velocidad, vida);
+                }
+        }
         int turnoheroe;
         if(superHeroe.velocidad >= villano.velocidad){
             turnoheroe = 1;  
         }else{
             turnoheroe = 0;  
         }
-
         while (villano.vida_hp > 0 && superHeroe.vida_hp > 0) {
             
             //Turno del heroe
