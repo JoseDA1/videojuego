@@ -33,6 +33,7 @@ class SuperHero extends Personaje {
 
     }
     public boolean atacar(Villano villano){
+        // EN la funcion de ataque se ejecuta la defenza segun la decision que se tome, si se defiende se consume el turno 
         System.out.println(this.nombre + " va a atacar");
         System.out.println(villano.nombre + " quiere defenderse?");
         System.out.println("Seleccione");
@@ -44,7 +45,7 @@ class SuperHero extends Personaje {
             return true;
         }else{
             int dañoRealizado = this.fuerza;
-            villano.vida_hp = villano.vida_hp - dañoRealizado;
+            villano.vida_hp -= dañoRealizado;
             System.out.println("Causaste " + dañoRealizado + " de daño a " + villano.nombre);
             System.out.println("Vida restante " + villano.vida_hp);
             return false;
@@ -52,12 +53,13 @@ class SuperHero extends Personaje {
 
     }
     public void defender(int daño){
+        // reduce el daño que se le pasa entre dos y lo resta a la vida actual
         int dañoRecibido = daño/2;
         this.vida_hp -= dañoRecibido;
         System.out.println(this.nombre + " ha recibido " + dañoRecibido + " de daño");
     }
     public void aumentarKi(){
-        // ataque maximo 500
+        // ataque maximo para aumentar: 500
         if(this.fuerza >= 500){
             System.out.println("No se puede aumentar más la fuerza");
         }else{
@@ -82,17 +84,17 @@ class SuperHero extends Personaje {
     }
     public void ataqueEspecial(Villano villano){
         System.out.println("Has realizado un KameHameHa");
+        
         villano.vida_hp -= 500;
         System.out.println("Has reducido 500 puntos de vida a " + villano.nombre);
     }
     public void acciones(){
         System.out.println("Seleccione una acción para " + this.nombre);
         System.out.println("1 -> Atacar");
-        //System.out.println("2 -> Defender");
-        System.out.println("3 -> Aumentar Ataque");
-        System.out.println("4 -> Recuperarse");
-        System.out.println("5 -> Estadisticas actuales");
-        System.out.println("6 -> Ataque especial");
+        System.out.println("2 -> Aumentar Ataque");
+        System.out.println("3 -> Recuperarse");
+        System.out.println("4 -> Estadisticas actuales");
+        System.out.println("5 -> Ataque especial");
     }
 }
 
@@ -154,6 +156,7 @@ class Villano extends Personaje {
         System.out.println("velocidad " + this.velocidad);
     }
     public void trampaVillano(SuperHero superHero){
+        // hace referencia al ataque del heroe y lo cambia por la actual del villano
         System.out.println("Has intercambiado la fuerza con " + superHero.nombre);
         int intercambio = superHero.fuerza;
         superHero.fuerza = this.fuerza;
@@ -163,7 +166,6 @@ class Villano extends Personaje {
     public void accionesVillano(){
         System.out.println("Seleccione una acción para " + this.nombre);
         System.out.println("1 -> Atacar");
-        //System.out.println("2 -> Defender");
         System.out.println("2 -> Aumentar Ki");
         System.out.println("3 -> Recuperarse");
         System.out.println("4 -> Estadisticas actuales");
@@ -317,18 +319,15 @@ public class App {
                             turnoDeHeroe = villano.atacarVillano(superHeroe);
                             break;
                         case 2:
-                            //villano.defenderVillano(superHeroe);
-                            break;
-                        case 3:
                             villano.aumentarAtaqueVillano();
                             break;
-                        case 4:
+                        case 3:
                             villano.recuperarseVillano();
                             break;
-                        case 5:
+                        case 4:
                             villano.estadisticasVillano();
                             break;
-                        case 6:
+                        case 5:
                             villano.trampaVillano(superHeroe);
                             break;
                         default:
